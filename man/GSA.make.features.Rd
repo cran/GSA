@@ -26,8 +26,6 @@ by computing the mean of the scores for genes in A, setting other gene scores
 to zero.
 }
 
-\value{
-}
 
 
  \references{Efron, B. and   Tibshirani, R.  

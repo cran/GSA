@@ -3,7 +3,7 @@
 \title{"Correlates" a gene set collection with a  given list of gene nams}
 \description{
 "Correlates" a gene set collection with a  given list of gene names. Gives info
-on the overlap between the collection and the list of genes}
+on the overlap between the collection and the list of genes
 }
 \usage{
 GSA.correlate(GSA.genesets.obj, genenames)
@@ -19,8 +19,6 @@ on the overlap between a gene set collection and the list of gene names.
 This is for information purposes, to find out, for example,
 how many genes in the list of genes appear in the gene set collection.}
 
-\value{
-}
 
 
  \references{Efron, B. and   Tibshirani, R.  

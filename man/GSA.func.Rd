@@ -10,18 +10,18 @@ This is the basic function called by GSA.
 \usage{
 GSA.func(x,y, genesets, genenames,geneset.names=NULL,
  method=c("maxmean","mean","absmean"), resp.type=c("Quantitative",
-"Two class unpaired","Survival","Multiclass", "Two class paired"),
+"Two class unpaired","Survival","Multiclass", "Two class paired",  "tCorr", "taCorr" ),
 censoring.status=NULL,
  first.time = TRUE, return.gene.ind = TRUE, 
 ngenes = NULL, gs.mat =NULL, gs.ind = NULL,
  catalog = NULL, catalog.unique =NULL, 
-s0 = NULL, s0.perc = NULL, minsize = 15, maxsize= 500, restand = TRUE) 
+s0 = NULL, s0.perc = NULL, minsize = 15, maxsize= 500, restand = TRUE, restand.basis=c("catalog","data")) 
 }
 
 \arguments{
 \item{x}{Data x: p by n matrix of features,
 one observation per column (missing values allowed)}
-\item{y} {Vector of response values:  1,2 for two class
+\item{y}{Vector of response values:  1,2 for two class
 problem, or 1,2,3 ... for multiclass problem, or real numbers for quantitative
 or survival problems}
 \item{genesets}{Gene set collection (a list)}
@@ -48,6 +48,9 @@ s0=zeroeth percentile of  standard  deviation values= min of sd values}
 \item{minsize}{Minimum number of genes in  genesets to be  considered}
 \item{maxsize}{Maximum number of genes in  genesets to be considered}
 \item{restand}{Should restandardization be done? Default TRUE}
+\item{restand.basis}{What should be used to do the  restandardization?
+The set of genes in the genesets ("catalog", the default) or the
+genes in the data set ("data")}
 }
 
 \details{Carries out a Gene set analysis, computing the gene set scores.

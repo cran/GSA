@@ -19,6 +19,33 @@ syy= sum(yy^2)
   return(list(tt=tt, numer=scor, sd=sd))
 
 }
+tCorr.func  <-
+function(x,y,s0=0){
+
+#simple correlation (Fisher trans)
+
+corr=cor(t(x),y)
+scor=.5*log((1+corr)/(1-corr))
+sd=rep(1,length(scor))
+tt=scor
+  return(list(tt=tt, numer=scor, sd=sd))
+}
+
+taCorr.func  <-
+function(x,y,s0=0){
+
+#simple abs correlation  (Fisher trans)
+
+corr=abs(cor(t(x),y))
+scor=.5*log((1+corr)/(1-corr))
+sd=rep(1,length(scor))
+tt=scor
+  return(list(tt=tt, numer=scor, sd=sd))
+}
+
+
+
+
 
 ttest.func <- function(x,y,s0=0, sd=NULL){
 

@@ -9,7 +9,7 @@ GSA.genescores(geneset.number, genesets,  GSA.obj,  genenames, negfirst=FALSE)
 }
 \arguments{
   \item{geneset.number}{Number indicating which  gene set is to examined}
-\item{genesets} {The gene set collection}
+\item{genesets}{The gene set collection}
   \item{GSA.obj}{Object returned by function GSA}
 \item{genenames}{Vector of gene names for gene in expression dataset}
 \item{negfirst}{Should negative genes be listed first? Default FALSE}

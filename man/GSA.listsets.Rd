@@ -2,7 +2,7 @@
 \alias{GSA.listsets}
 \title{List the results from a Gene set analysis}
 \description{
-List the results from a call to  GSA  (Gene set analysis)}
+List the results from a call to  GSA  (Gene set analysis)
 }
 \usage{
 GSA.listsets(GSA.obj, geneset.names = NULL, maxchar = 20, FDRcut = 0.2)

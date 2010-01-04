@@ -2,7 +2,7 @@
 \alias{GSA.plot}
 \title{Plot the results from a Gene set analysis}
 \description{
-Plots the results from a call to  GSA  (Gene set analysis)}
+Plots the results from a call to  GSA  (Gene set analysis)
 }
 \usage{
 GSA.plot(GSA.obj, fac=1, FDRcut = 1)

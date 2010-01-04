@@ -1,7 +1,7 @@
 GSA=function(x,y, genesets, genenames,
- method=c("maxmean","mean","absmean"), resp.type=c("Quantitative","Two class unpaired","Survival","Multiclass", "Two class paired"),
+ method=c("maxmean","mean","absmean"), resp.type=c("Quantitative","Two class unpaired","Survival","Multiclass", "Two class paired", "tCorr", "taCorr"),
 censoring.status=NULL,random.seed=NULL,  knn.neighbors=10,
-  s0=NULL, s0.perc=NULL,minsize=15,maxsize=500, restand=TRUE, nperms=200, xl.mode=c("regular","firsttime","next20","lasttime"), xl.time=NULL, xl.prevfit=NULL){
+  s0=NULL, s0.perc=NULL,minsize=15,maxsize=500, restand=TRUE,restand.basis=c("catalog","data"), nperms=200, xl.mode=c("regular","firsttime","next20","lasttime"), xl.time=NULL, xl.prevfit=NULL){
 #
 # computes feature set scores for a single set of data
 
@@ -10,6 +10,8 @@ this.call=match.call()
  method <- match.arg(method)
 resp.type=match.arg(resp.type)
 xl.mode=match.arg(xl.mode)
+restand.basis=match.arg(restand.basis)
+
 fdr.lo=NULL
 fdr.hi=NULL
 pvalues.lo=NULL
@@ -39,7 +41,7 @@ junk=GSA.func(x,y,genesets=genesets, genenames=genenames,
              method=method, resp.type=resp.type,
  censoring.status=censoring.status,
               s0=s0,s0.perc=s0.perc, minsize=minsize,maxsize=maxsize,
-           restand=restand)
+           restand=restand, restand.basis= restand.basis)
 
 r.obs=junk$score
 stand.info=junk$stand.info
@@ -140,7 +142,11 @@ if(xl.mode=="regular"){
                s0=s0, s0.perc=s0.perc,minsize=minsize,maxsize=maxsize,
            restand=restand)
       r.star[,i]=junk$score
-      stand.info.star[,i]=unlist(junk$stand.info)
+      if (restand==TRUE) {  
+          stand.info.star[, i] = unlist(junk$stand.info)
+        } 
+        else stand.info.star[, i] = NA   
+
   }
 
 if(xl.mode=="regular" | xl.mode=="lasttime"){

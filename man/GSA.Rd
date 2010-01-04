@@ -8,18 +8,19 @@ variable, such as a group indicator, a quantitative variable or a survival time
 }
 \usage{
 GSA(x,y, genesets, genenames,
-method=c("maxmean","mean","absmean"), resp.type=c("Quantitative","Two class unpaired","Survival","Multiclass", "Two class paired"),
+method=c("maxmean","mean","absmean"), resp.type=c("Quantitative","Two class unpaired","Survival","Multiclass", "Two class paired", "tCorr", "taCorr"),
 censoring.status=NULL,random.seed=NULL,  knn.neighbors=10,
 s0=NULL, s0.perc=NULL,minsize=15,maxsize=500,
-restand=TRUE, nperms=200, 
+restand=TRUE,restand.basis=c("catalog","data"),
+ nperms=200, 
 xl.mode=c("regular","firsttime","next20","lasttime"), 
 xl.time=NULL, xl.prevfit=NULL)
 
 }
 \arguments{
-  \item{x}{ Data x: p by n matrix of features (expression values),
+  \item{x}{Data x: p by n matrix of features (expression values),
 one observation per column (missing values allowed); y: n-vector of outcome measurements}
-\item{y} {Vector of response values:  1,2 for two class
+\item{y}{Vector of response values:  1,2 for two class
 problem, or 1,2,3 ... for multiclass problem, or real numbers for quantitative
 or survival problems}
 \item{genesets}{Gene set collection (a list)}
@@ -41,6 +42,9 @@ s0=zeroeth percentile of  standard  deviation values= min of sd values)}
 \item{minsize}{Minimum number of genes in  genesets to be  considered}
 \item{maxsize}{Maximum number of genes in  genesets to be considered}
 \item{restand}{Should restandardization be done? Default TRUE},
+\item{restand.basis}{What should be used to do the  restandardization?
+The set of genes in the genesets ("catalog", the default) or the
+genes in the data set ("data")}
 \item{nperms}{Number of permutations used to estimate false discovery rates}
 \item{xl.mode}{Used by Excel interface}
 \item{xl.time}{Used by Excel interface}

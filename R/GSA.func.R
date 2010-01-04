@@ -1,20 +1,22 @@
 GSA.func=function(x,y, genesets, genenames, geneset.names=NULL,
  method=c("maxmean","mean","absmean"),
-resp.type=c("Quantitative","Two class unpaired","Survival","Multiclass", "Two class paired"),
+resp.type=c("Quantitative","Two class unpaired","Survival","Multiclass", "Two class paired", "tCorr", "taCorr"),
 censoring.status=NULL,
 first.time=TRUE,  return.gene.ind=TRUE, ngenes=NULL, gs.mat=NULL, gs.ind=NULL,
-catalog=NULL, catalog.unique=NULL, s0=NULL, s0.perc=NULL, minsize=15,maxsize=500, restand=TRUE){
+catalog=NULL, catalog.unique=NULL, s0=NULL, s0.perc=NULL, minsize=15,maxsize=500, restand=TRUE, restand.basis=c("catalog","data")){
+
 #
 # computes gene set scores for a single set of data
 
 this.call=match.call()
  method <- match.arg(method)
  resp.type <- match.arg(resp.type)
-
+restand.basis <-  match.arg(restand.basis)
 
 BIG=10e9
 me=rowMeans(x)
 
+if(resp.type=="tCorr" | resp.type=="taCorr"){s0=0}
 
 
 if(first.time){
@@ -95,31 +97,63 @@ else if(s0.perc>=0){initflag=TRUE}
 
 if(resp.type=="Two class unpaired"){
   jun=ttest.func(x[catalog.unique,],y,s0=s0)
+  if(restand & restand.basis=="data"){
+     jun.stand=ttest.func(x,y,s0=s0)
+  }
 }
 
 
 
 if(resp.type=="Survival"){
  jun=cox.func(x[catalog.unique,],y,censoring.status,s0=s0)
-
+ if(restand & restand.basis=="data"){
+     jun.stand=cox.func(x,y,s0=s0)
+  }
 }
 
 if(resp.type=="Multiclass"){
  jun=multiclass.func(x[catalog.unique,],y,s0=s0)
+  if(restand & restand.basis=="data"){
+     jun.stand=multiclass.func(x,y,s0=s0)
+  }
 }
 
 if(resp.type=="Quantitative"){
   jun=quantitative.func(x[catalog.unique,],y,s0=s0)
+  if(restand & restand.basis=="data"){
+     jun.stand=quantitative.func(x,y,s0=s0)
+  }
 }
 if(resp.type=="Two class paired"){
   jun=paired.ttest.func(x[catalog.unique,],y,s0=s0)
+  if(restand & restand.basis=="data"){
+     jun.stand=paired.ttest.func(x,y,s0=s0)
+  }
+}
+if(resp.type=="tCorr"){
+  jun=tCorr.func(x[catalog.unique,],y,s0=s0)
+  if(restand & restand.basis=="data"){
+   jun.stand=tCorr.func(x,y,s0=s0)
+  }
+}
+if(resp.type=="taCorr"){
+  jun=taCorr.func(x[catalog.unique,],y,s0=s0)
+  if(restand & restand.basis=="data"){
+   jun.stand=taCorr.func(x,y,s0=s0)
+  }
 }
 
+if(restand.basis=="catalog"){
+	tt=rep(NA,nrow(x))
+ 	 s=tt
+	tt[catalog.unique]=jun$tt
+	s[catalog.unique]=jun$sd
+}
 
-tt=rep(NA,nrow(x))
-s=tt
-tt[catalog.unique]=jun$tt
-s[catalog.unique]=jun$sd
+if(restand.basis=="data"){
+  	tt = jun.stand$tt  
+    	s = jun.stand$sd
+}
 
 gene.scores=tt
 
@@ -127,18 +161,33 @@ gene.scores=tt
 mean.all=mean.abs=sd.all=sd.abs=mean.pos=sd.pos=mean.neg=sd.neg=NULL
 
 if(restand){
-mean.all=mean(tt[catalog])
-sd.all=sqrt(var(tt[catalog]))
-
-mean.abs=mean(abs(tt[catalog]))
-sd.abs=sqrt(var(abs(tt[catalog])))
-
-mean.pos=mean(tt[catalog]*(tt[catalog]>0))
-sd.pos=sqrt(var(tt[catalog]*(tt[catalog]>0)))
-
-mean.neg=-mean(tt[catalog]*(tt[catalog]<0))
-sd.neg=sqrt(var(tt[catalog]*(tt[catalog]<0)))
+ if(restand.basis=="catalog"){
+	mean.all=mean(tt[catalog])
+	sd.all=sqrt(var(tt[catalog]))
+	
+	mean.abs=mean(abs(tt[catalog]))
+	sd.abs=sqrt(var(abs(tt[catalog])))
+	
+	mean.pos=mean(tt[catalog]*(tt[catalog]>0))
+	sd.pos=sqrt(var(tt[catalog]*(tt[catalog]>0)))
+	
+	mean.neg=-mean(tt[catalog]*(tt[catalog]<0))
+	sd.neg=sqrt(var(tt[catalog]*(tt[catalog]<0)))
 }
+if(restand.basis=="data"){
+     mean.all = mean(tt)
+        sd.all = sqrt(var(tt))
+        mean.abs = mean(abs(tt))
+        sd.abs = sqrt(var(abs(tt)))
+        mean.pos = mean(tt * (tt > 0))
+        sd.pos = sqrt(var(tt * (tt > 0)))
+        mean.neg = -mean(tt * (tt < 0))
+        sd.neg = sqrt(var(tt * (tt < 0)))
+    }
+
+}
+
+
 
 stand.info=list(mean.all=mean.all,
 mean.abs=mean.abs,
@@ -170,7 +219,7 @@ rneg=rowSums((s2-ttt)/2)/ngenes
 rpos[is.na(rpos)]=0
 rneg[is.na(rneg)]=0
 if(restand ){rpos=(rpos- mean.pos)/(sd.pos)}
-if(restand & resp.type!= "Multiclass"){rneg=(rneg- mean.neg)/(sd.neg)}
+if(restand & resp.type!= "Multiclass" & resp.type!= "taCorr"){rneg=(rneg- mean.neg)/(sd.neg)}
 rr=pmax(rpos,rneg)
 rr[rneg>rpos]=-1*rr[rneg>rpos]
 }

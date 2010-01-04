@@ -5,7 +5,7 @@ function (GSA.obj, geneset.names = NULL, maxchar = 20, FDRcut = 0.2)
 if(is.null(geneset.names)){
   geneset.names=rep("xxxxxx", length(GSA.obj$GSA.scores))
 }
-negflag= !(GSA.obj$resp.type=="Multiclass")
+negflag= !(GSA.obj$resp.type=="Multiclass" | GSA.obj$resp.type=="taCorr")
     r = GSA.obj$GSA.scores
     rstar = GSA.obj$GSA.scores.perm
     r[is.na(r)] = 0
@@ -16,15 +16,23 @@ geneset.names = substring(geneset.names, 1, maxchar)
     pvalues.lo = GSA.obj$pvalues.lo
     pvalues.hi = GSA.obj$pvalues.hi
     m = sum(!is.na(pvalues.hi))
+
     make.monotone.increasing = function(x) {
         n = length(x)
-        for (i in n:2) {
-            if (x[i - 1] > x[i]) {
-                x[i - 1] = x[i]
-            }
+        if (n==0) return(NULL)  ## added to prevent error when x is NULL
+        if (n==1) x[1] <- x[1]  ## added to prevent error when length of x =1
+        else {
+   	      for (i in n:2) {
+         	  if (x[i - 1] > x[i]) {
+           	    x[i - 1] = x[i]
+           	}
+		      }
         }
         return(x)
     }
+
+
+
     oo = (1:length(r))[!is.na(pvalues.hi)]
     fdr.lo = fdr.hi = rep(NA, length(r))
     for (i in oo) {
@@ -45,7 +53,9 @@ geneset.names = substring(geneset.names, 1, maxchar)
                 res1 = rbind(res1, c(i, geneset.names[i], round(GSA.obj$GSA.scores[i], 
                     4), pvalues.lo[i], fdr.lo[i]))
         }
-        o1 = order(res1[, 4], decreasing = FALSE)
+        if (!is.null(res1)) o1 = order(res1[, 4],decreasing = FALSE)  
+        else o1 = NULL
+
         res1 = res1[o1, , drop = F]
         res1[, 5] = make.monotone.increasing(as.numeric(res1[, 5]))
    }
@@ -56,7 +66,9 @@ geneset.names = substring(geneset.names, 1, maxchar)
             res2 = rbind(res2, c(i, geneset.names[i], round(GSA.obj$GSA.scores[i], 
                 4), pvalues.hi[i], fdr.hi[i]))
     }
-    o2 = order(res2[, 4], decreasing = FALSE)
+    if (!is.null(res2)) o2 = order(res2[, 4], decreasing = FALSE)  
+    else o2 = NULL
+
     res2 = res2[o2, , drop = F]
     res2[, 5] = make.monotone.increasing(as.numeric(res2[, 5]))
     if (length(res1) == 0) {
