@@ -21,9 +21,9 @@
 \description{Internal samr functions}
 
 \usage{
-print.GSA.func(x, ...) 
-print.GSA(x, ...) 
-summary.GSA.genesets(object, ...)
+\S3method{print}{GSA.func}(x, ...) 
+\S3method{print}{GSA}(x, ...) 
+\S3method{summary}{GSA.genesets}(object, ...)
 varr(x, meanx=NULL) 
 coxvar(x, y, ic, offset = rep(0., length(y)), coxstuff.obj = NULL)
 coxstuff(x, y, ic, offset = rep(0., length(y))) 
