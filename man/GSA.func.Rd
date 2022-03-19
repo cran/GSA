@@ -9,13 +9,15 @@ This is the basic function called by GSA.
 }
 \usage{
 GSA.func(x,y, genesets, genenames,geneset.names=NULL,
- method=c("maxmean","mean","absmean"), resp.type=c("Quantitative",
-"Two class unpaired","Survival","Multiclass", "Two class paired",  "tCorr", "taCorr" ),
+ method=c("maxmean","mean","absmean"),
+ resp.type=c("Quantitative","Two class unpaired","Survival","Multiclass",
+             "Two class paired",  "tCorr", "taCorr" ),
 censoring.status=NULL,
  first.time = TRUE, return.gene.ind = TRUE, 
 ngenes = NULL, gs.mat =NULL, gs.ind = NULL,
  catalog = NULL, catalog.unique =NULL, 
-s0 = NULL, s0.perc = NULL, minsize = 15, maxsize= 500, restand = TRUE, restand.basis=c("catalog","data")) 
+s0 = NULL, s0.perc = NULL, minsize = 15, maxsize= 500, restand = TRUE,
+restand.basis=c("catalog","data")) 
 }
 
 \arguments{
@@ -121,7 +123,9 @@ GSA.func.obj<-GSA.func(x,y, genenames=genenames, genesets=genesets,  resp.type="
 #  or the website http://www-stat.stanford.edu/~tibs/GSA, or one
 # that you have created yourself. Then
 
-#   GSA.func.obj<-GSA.func(x,y, genenames=genenames, genesets=geneset.obj$genesets,  resp.type="Two class unpaired")
+#   GSA.func.obj<-GSA.func(x,y, genenames=genenames,
+#                          genesets=geneset.obj$genesets,
+#                          resp.type="Two class unpaired")
 #
 #
 

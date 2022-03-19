@@ -58,7 +58,8 @@ for(i in 1:50){
 }
 geneset.names=paste("set",as.character(1:50),sep="")
 
-GSA.obj<-GSA(x,y, genenames=genenames, genesets=genesets,  resp.type="Two class unpaired", nperms=100)
+GSA.obj<-GSA(x,y, genenames=genenames, genesets=genesets,
+             resp.type="Two class unpaired", nperms=100)
 
 # look at 10th gene set
 

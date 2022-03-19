@@ -8,7 +8,9 @@ variable, such as a group indicator, a quantitative variable or a survival time
 }
 \usage{
 GSA(x,y, genesets, genenames,
-method=c("maxmean","mean","absmean"), resp.type=c("Quantitative","Two class unpaired","Survival","Multiclass", "Two class paired", "tCorr", "taCorr"),
+method=c("maxmean","mean","absmean"),
+resp.type=c("Quantitative","Two class unpaired","Survival","Multiclass",
+            "Two class paired", "tCorr", "taCorr"),
 censoring.status=NULL,random.seed=NULL,  knn.neighbors=10,
 s0=NULL, s0.perc=NULL,minsize=15,maxsize=500,
 restand=TRUE,restand.basis=c("catalog","data"),
@@ -138,7 +140,8 @@ for(i in 1:50){
 }
 geneset.names=paste("set",as.character(1:50),sep="")
 
-GSA.obj<-GSA(x,y, genenames=genenames, genesets=genesets,  resp.type="Two class unpaired", nperms=100)
+GSA.obj<-GSA(x,y, genenames=genenames, genesets=genesets,
+             resp.type="Two class unpaired", nperms=100)
 
 
 GSA.listsets(GSA.obj, geneset.names=geneset.names,FDRcut=.5)
@@ -153,7 +156,8 @@ GSA.listsets(GSA.obj, geneset.names=geneset.names,FDRcut=.5)
 #  or the website http://www-stat.stanford.edu/~tibs/GSA, or one
 # that you have created yourself. Then
 
-#   GSA.obj<-GSA(x,y, genenames=genenames, genesets=geneset.obj$genesets,  resp.type="Two class unpaired", nperms=100)
+#   GSA.obj<-GSA(x,y, genenames=genenames, genesets=geneset.obj$genesets,
+#                resp.type="Two class unpaired", nperms=100)
 #
 #
 

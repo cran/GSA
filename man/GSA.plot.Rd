@@ -49,7 +49,8 @@ for(i in 1:50){
 }
 geneset.names=paste("set",as.character(1:50),sep="")
 
-GSA.obj<-GSA(x,y, genenames=genenames, genesets=genesets,  resp.type="Two class unpaired", nperms=100)
+GSA.obj<-GSA(x,y, genenames=genenames, genesets=genesets,
+             resp.type="Two class unpaired", nperms=100)
 
 
 GSA.listsets(GSA.obj, geneset.names=geneset.names,FDRcut=.5)

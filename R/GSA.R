@@ -23,8 +23,7 @@ if(!is.null(random.seed)){
 if(xl.mode=="regular" | xl.mode=="firsttime"){
 
 if(sum(is.na(x))>0){
-require(impute)
-x=impute.knn(x,k=knn.neighbors)
+x=impute::impute.knn(x,k=knn.neighbors)
 }
 
 
