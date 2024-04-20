@@ -10,7 +10,7 @@
 \alias{varr}
 \alias{coxvar}
 \alias{coxstuff}
-\alias{ests0}
+\alias{est.s0}
 \alias{GSA.xl.genescores}
 \alias{GSA.xl.correlate}
 \alias{GSA.xl.summary}
